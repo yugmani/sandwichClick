@@ -29,50 +29,99 @@
               },
               {
                 name:"oven-roasted-chicken",
-                image: "oven-roasted-chicken.jpg",
+                image: "oven-roasted-chicken.png",
                 price: 22.99          
               },
               {
                   name:"tuna",
-                  image: "tuna.jpg",
+                  image: "tuna.png",
                   price: 19.99          
                 },
                 {
                   name:"turkey-breast",
-                  image: "turkey-breast.jpg",
+                  image: "turkey-breast.png",
                   price: 18.99          
                 },
 
       ]
 
       // ...
+    //   window.onload = function(){
+    //         displayMenuItems();
+    //   };
+    // console.log(menu[i].image);
+    // console.log(menu[i].name);
+
+    displayMenuItems();
+
+      function displayMenuItems(){
+        var item = 0;
+          for (var i=0; i<menu.length; i += 2){
+
+                
+              var newRow = $("<div>");
+              newRow.attr("class", "row");
+              $("#menu-column").append(newRow);
+             
+              console.log("row"+i);
+          
+              for(let j=0; j<2; j++){
+                
+                var newColumn = $("<div>");
+                newColumn.attr("class", "col-6");
+                $(newRow).append(newColumn);
+                
+                  var newH = $("<h3>");
+                  newH.text(menu[item].name);
+                 
+                  $(newColumn).append(newH);
+                  var menuImage = $("<img>");
+                  menuImage.attr("src", "./images/"+menu[item].image);
+                  menuImage.attr("class", "menu-photo");
+                  $(newColumn).append(menuImage);
+
+                  var newP = $("<p>");
+                  newP.text("Price:$ "+menu[item].price);
+                  $(newColumn).append(newP);
+                  
+                  item++;
+                  
+                  console.log(menu[i].image);
+                  console.log(menu[i].name);
+          }
+        }
+      }
+
 
       // FUNCTIONS
       // ====================================================================
       // Here we create various on "click" functions which capture the clicks
       // Inside each click event is the code to create an alert, update the counter, then show the updated count.
       // ...
-      $("#pbj").on("click", function(){
-        counter++;
-        imageAdd("peanutbutter-jelly");
-        // alert("Now you got ruined by Butter Jelly")
-        // alert("You ate: "+counter+ " sandwiches");
-      })
-      $("#grilledcheese").on("click", function(){
-        counter++;
-        imageAdd("grilled-cheese");
-        // alert("You are Grilled with Cheese");
-        // alert("You ate: "+counter+ " sandwiches");
-      })
-      $("#roastbeef").on("click", function(){
-        counter++;
-        imageAdd("roast-beef");
-        // alert("You are better with Roasted Beef");
-        // alert("You ate: "+counter+ " sandwiches");
-      })
+     
       
       // ...
-      function imageAdd(sandwich){
+
+      var manyEl = document.querySelectorAll(".col-6");
+      console.log(manyEl);
+      for (let i=0; i<manyEl.length; i++){
+
+      manyEl[0].addEventListener("click", function(event){
+        var element = event.target;
+        // console.log(element);
+        if (element.matches("h3") === true){
+            var index = element.indexOf;
+            console.log(index);
+          }
+        // console.log(element);
+      })
+    }
+
+
+
+
+      function addToCart(sandwich){
+       
         var newImg = $("<img>");
         var newSpan = $("<span>");
         newImg.attr("src", "./images/"+sandwich+".jpg");
