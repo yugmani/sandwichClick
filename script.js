@@ -11,60 +11,58 @@
       // Here we create variables for tracking the number of sandwiches eaten
       // ...
       var counter = 0;
+      var totalPrice = 0;
       const menu = [
           {
-              name:"peanutbutter-jelly",
-              image: "peanutbutter-jelly.jpg",
+              id:101,
+              name:"peanutbutter jelly",
+              image: "101.jpg",
               price: 21.99          
             },
             {
-                name:"grilled-cheese",
-                image: "grilled-cheese.jpg",
+                id:102,
+                name:"grilled cheese",
+                image: "102.jpg",
                 price: 23.99          
               },
               {
-                name:"roast-beef",
-                image: "roast-beef.jpg",
+                id:103,
+                name:"roast beef",
+                image: "103.jpg",
                 price: 17.99          
               },
               {
+                id:104,
                 name:"oven-roasted-chicken",
-                image: "oven-roasted-chicken.png",
+                image: "104.png",
                 price: 22.99          
               },
               {
+                  id:105,
                   name:"tuna",
-                  image: "tuna.png",
+                  image: "105.png",
                   price: 19.99          
                 },
                 {
+                  id:106,
                   name:"turkey-breast",
-                  image: "turkey-breast.png",
+                  image: "106.png",
                   price: 18.99          
                 },
 
       ]
 
-      // ...
-    //   window.onload = function(){
-    //         displayMenuItems();
-    //   };
-    // console.log(menu[i].image);
-    // console.log(menu[i].name);
-
+      
     displayMenuItems();
 
       function displayMenuItems(){
-        var item = 0;
+          var item = 0;
           for (var i=0; i<menu.length; i += 2){
-
-                
+   
               var newRow = $("<div>");
               newRow.attr("class", "row");
               $("#menu-column").append(newRow);
-             
-              console.log("row"+i);
-          
+       
               for(let j=0; j<2; j++){
                 
                 var newColumn = $("<div>");
@@ -86,8 +84,6 @@
                   
                   item++;
                   
-                  console.log(menu[i].image);
-                  console.log(menu[i].name);
           }
         }
       }
@@ -101,39 +97,77 @@
      
       
       // ...
-
+      var myCart = [];
+      
       var manyEl = document.querySelectorAll(".col-6");
-      console.log(manyEl);
       for (let i=0; i<manyEl.length; i++){
-
-      manyEl[0].addEventListener("click", function(event){
-        var element = event.target;
-        // console.log(element);
-        if (element.matches("h3") === true){
-            var index = element.indexOf;
-            console.log(index);
-          }
-        // console.log(element);
+      manyEl[i].addEventListener("click", function(event){
+        // var element = event.target;
+        event.preventDefault();
+          
+          addToCart(i);
+         
+          $("#total-number").text("Total Items: "+ myCart.length);
+          $("#total-cost").text("Total Cost: $"+ totalPrice.toFixed(2))
+          
+          displayCartItems();
       })
+     
     }
 
+function addToCart(index){
+      
+      myCart.push(menu[index]);
+      totalPrice += menu[index].price;
+
+      console.log("length: "+myCart.length);
+  }  
 
 
+  function displayCartItems(){
+   
+    var smallDiv = $(".cart-item-container");
+    smallDiv.text("");
 
-      function addToCart(sandwich){
-       
-        var newImg = $("<img>");
-        var newSpan = $("<span>");
-        newImg.attr("src", "./images/"+sandwich+".jpg");
-        newImg.attr("class", "menu-item");
-        $("#cart").append(newImg);
-        newSpan.text(sandwich);
-        $("#cart").append(newSpan);
-
-        
-        $("#total-number").text("Total Items: "+ counter);
-      }
-
-
-
+    let uniqueItems = myCart.filter((item, index)=>{
+      return myCart.indexOf(item) === index;
     });
+
+    for (let item=0; item<uniqueItems.length; item++){
+        
+        var nextDiv = $("<div>");
+        nextDiv.attr("class", "cart-item");
+        smallDiv.append(nextDiv);
+        var smallDiv = $(".cart-item-container");
+        var newImg = $("<img>");
+        var nextP= $("<p>");
+        newImg.attr("src", "./images/"+uniqueItems[item].image);
+        newImg.attr("class", "menu-item");
+        $(nextDiv).append(newImg);
+        nextP.text(uniqueItems[item].name);
+        $(nextDiv).append(nextP);
+        var qty = 1; 
+
+        for (let d_items=0; d_items<dupItems.length; d_items++){
+          if (uniqueItems[item] === dupItems[d_items]){
+            qty++; 
+          }
+          
+        }
+    }
+  }
+
+
+  function quantityItems(){
+
+    let dupItems = myCart.filter((cart, index) => {
+        return myCart.indexOf(cart) !== index;
+    });
+    console.log(dupItems);
+
+
+
+
+  }
+    
+});
