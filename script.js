@@ -15,7 +15,7 @@
       const menu = [
           {
               id:101,
-              name:"peanutbutter jelly",
+              name:"peanutbutter",
               image: "101.jpg",
               price: 21.99          
             },
@@ -33,7 +33,7 @@
               },
               {
                 id:104,
-                name:"oven-roasted-chicken",
+                name:"roasted-chicken",
                 image: "104.png",
                 price: 22.99          
               },
@@ -98,22 +98,30 @@
       
       // ...
       var myCart = [];
-      
+
+      $("#cart-column").hide();
       var manyEl = document.querySelectorAll(".col-6");
       for (let i=0; i<manyEl.length; i++){
-      manyEl[i].addEventListener("click", function(event){
-        // var element = event.target;
-        event.preventDefault();
-          
-          addToCart(i);
-         
-          $("#total-number").text("Total Items: "+ myCart.length);
-          $("#total-cost").text("Total Cost: $"+ totalPrice.toFixed(2))
-          
-          displayCartItems();
-      })
-     
+          manyEl[i].addEventListener("click", function(event){
+              // var element = event.target;
+              event.preventDefault();
+              
+              addToCart(i);
+            
+              $("#total-number").text("Total Items: "+ myCart.length);
+              $("#total-cost").text("Total Cost: $"+ totalPrice.toFixed(2));
+              $("#cart-number").text(myCart.length);
+              $("#cart-number").show();
+              displayCartItems();
+          })
     }
+
+    var cartEl = document.querySelector("#cart");
+    cartEl.addEventListener("click", function(e){
+      e.preventDefault();
+      $("#cart-column").show();
+    })
+       
 
 function addToCart(index){
       
@@ -138,36 +146,33 @@ function addToCart(index){
         var nextDiv = $("<div>");
         nextDiv.attr("class", "cart-item");
         smallDiv.append(nextDiv);
-        var smallDiv = $(".cart-item-container");
+        // var smallDiv = $(".cart-item-container");
+
         var newImg = $("<img>");
-        var nextP= $("<p>");
+        var nextP= $("<h6>");
         newImg.attr("src", "./images/"+uniqueItems[item].image);
         newImg.attr("class", "menu-item");
         $(nextDiv).append(newImg);
         nextP.text(uniqueItems[item].name);
         $(nextDiv).append(nextP);
         var qty = 1; 
-
+        var dupItems = myCart.filter((cart, index) => {
+          return myCart.indexOf(cart) !== index;
+        });
+        console.log(dupItems);
         for (let d_items=0; d_items<dupItems.length; d_items++){
           if (uniqueItems[item] === dupItems[d_items]){
             qty++; 
           }
           
         }
+
+        var qtyDiv = $("<h4>");
+        qtyDiv.text("Qty: "+qty);
+        $(nextDiv).append(qtyDiv);
     }
-  }
-
-
-  function quantityItems(){
-
-    let dupItems = myCart.filter((cart, index) => {
-        return myCart.indexOf(cart) !== index;
-    });
-    console.log(dupItems);
+  } 
 
 
 
-
-  }
-    
 });
